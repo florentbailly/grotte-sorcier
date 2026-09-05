@@ -1,0 +1,624 @@
+:root {
+  color-scheme: dark;
+  --ink: #ffffff;
+  --muted: #70b8b8;
+  --cyan: #00ffff;
+  --amber: #ff00ff;
+  --red: #ff55ff;
+  --violet: #00ffff;
+  --screen: #000000;
+  --case: #15151a;
+  --case-edge: #4a4a55;
+  --panel: #000000;
+  --line: rgba(0, 255, 255, 0.27);
+  font-family: "Courier New", Courier, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #09090d;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(12px, 3vw, 36px);
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 50% -20%, #30303b 0, transparent 52%),
+    #09090d;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.machine {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: clamp(14px, 2.4vw, 28px);
+  border: 1px solid #39465a;
+  border-radius: 9px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.035), transparent 20%),
+    var(--case);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.machine__header,
+.machine__footer,
+.scene-caption,
+.command-row,
+.suggestion-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.machine__header {
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 4px 18px;
+}
+
+.eyebrow {
+  margin: 0 0 5px;
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.15rem, 3vw, 1.8rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.header-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.icon-button,
+.suggestions button,
+.command-row button,
+.ending-dialog button {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(100, 245, 225, 0.06);
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, transform 80ms ease;
+}
+
+.icon-button {
+  min-height: 40px;
+  padding: 8px 11px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.icon-button:hover,
+.suggestions button:hover,
+.command-row button:hover,
+.ending-dialog button:hover {
+  border-color: var(--cyan);
+  background: rgba(100, 245, 225, 0.14);
+}
+
+.icon-button:active,
+.suggestions button:active,
+.command-row button:active,
+.ending-dialog button:active {
+  transform: translateY(1px);
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #050709;
+  border-radius: 10px;
+  background: var(--screen);
+  box-shadow:
+    inset 0 0 80px rgba(0, 170, 170, 0.1),
+    0 0 0 5px #242e3c,
+    0 0 0 7px #06080d;
+}
+
+.screen__glow,
+.screen__scanlines {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+}
+
+.screen__glow {
+  background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(0, 0, 0, 0.34) 100%);
+}
+
+.screen__scanlines {
+  opacity: 0.16;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 0, 0, 0.45) 3px,
+    rgba(0, 0, 0, 0.45) 4px
+  );
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  grid-template-areas:
+    "scene status"
+    "terminal terminal";
+}
+
+.scene-panel {
+  grid-area: scene;
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+#sceneCanvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #020608;
+  image-rendering: pixelated;
+}
+
+.scene-caption {
+  justify-content: space-between;
+  min-height: 38px;
+  padding: 8px 12px;
+  color: var(--cyan);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.status-panel {
+  grid-area: status;
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.86);
+}
+
+.status-panel section {
+  min-width: 0;
+}
+
+.status-panel h2 {
+  margin: 0 0 7px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.status-panel p,
+.inventory-list {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.inventory-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0;
+  list-style: none;
+}
+
+.inventory-list li {
+  padding: 4px 7px;
+  border: 1px solid rgba(182, 156, 255, 0.35);
+  color: var(--violet);
+  background: rgba(182, 156, 255, 0.07);
+}
+
+.inventory-list li.empty {
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+  background: none;
+}
+
+.warmth {
+  display: flex;
+  gap: 7px;
+}
+
+.warmth span {
+  display: block;
+  width: 32px;
+  height: 12px;
+  border: 1px solid var(--red);
+  background: var(--red);
+  box-shadow: 0 0 8px rgba(255, 102, 128, 0.45);
+}
+
+.warmth span.empty {
+  background: transparent;
+  box-shadow: none;
+  opacity: 0.35;
+}
+
+.terminal-panel {
+  grid-area: terminal;
+  min-width: 0;
+  padding: clamp(14px, 2.4vw, 22px);
+}
+
+.game-log {
+  height: 200px;
+  overflow-y: auto;
+  padding: 0 8px 14px 0;
+  scrollbar-color: rgba(100, 245, 225, 0.35) transparent;
+}
+
+.log-entry {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.52;
+}
+
+.log-entry.system {
+  color: var(--amber);
+}
+
+.log-entry.command {
+  margin-bottom: 7px;
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.log-entry.danger {
+  color: var(--red);
+}
+
+.log-entry.reward {
+  color: var(--violet);
+}
+
+.command-form label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.command-row {
+  gap: 10px;
+  min-height: 48px;
+  padding: 5px 5px 5px 14px;
+  border: 1px solid rgba(100, 245, 225, 0.55);
+  background: rgba(100, 245, 225, 0.045);
+  box-shadow: inset 0 0 20px rgba(100, 245, 225, 0.035);
+}
+
+.command-row > span {
+  color: var(--amber);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.command-row input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  color: var(--ink);
+  background: transparent;
+  font-size: 1rem;
+}
+
+.command-row input::placeholder {
+  color: #617b78;
+}
+
+.command-row button {
+  align-self: stretch;
+  padding: 0 16px;
+  border-color: var(--cyan);
+  color: #001613;
+  background: var(--cyan);
+  font-weight: 800;
+}
+
+.command-row button:hover {
+  color: var(--ink);
+}
+
+.suggestion-wrap {
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.suggestion-wrap > span {
+  flex: 0 0 auto;
+  padding-top: 7px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.suggestions button {
+  min-height: 34px;
+  padding: 6px 9px;
+  color: var(--cyan);
+  font-size: 0.82rem;
+}
+
+.machine__footer {
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 5px 0;
+  color: #71808d;
+  font-size: 0.76rem;
+}
+
+.machine__footer p {
+  margin: 0;
+}
+
+kbd {
+  padding: 2px 5px;
+  border: 1px solid #465166;
+  border-radius: 3px;
+  color: #a7b3bf;
+  background: #1a2330;
+  box-shadow: 0 2px 0 #05070b;
+  font: inherit;
+}
+
+.ending-dialog {
+  width: min(520px, calc(100% - 30px));
+  padding: 34px;
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #071014;
+  box-shadow: 0 0 80px rgba(100, 245, 225, 0.2);
+  text-align: center;
+}
+
+.ending-dialog::backdrop {
+  background: rgba(0, 3, 7, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.ending-dialog h2 {
+  margin: 5px 0 12px;
+  color: var(--cyan);
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+}
+
+.ending-dialog p:not(.eyebrow) {
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.ending-dialog button {
+  min-height: 46px;
+  padding: 10px 16px;
+  border-color: var(--cyan);
+  color: #001613;
+  background: var(--cyan);
+  font-weight: 800;
+}
+
+.ending-art {
+  color: var(--amber);
+  font-size: 3.5rem;
+  text-shadow: 0 0 20px var(--amber);
+}
+
+.death-dialog {
+  border-color: var(--red);
+  box-shadow: 0 0 80px rgba(255, 0, 255, 0.18);
+}
+
+.death-dialog h2,
+.death-rune {
+  color: var(--red);
+}
+
+.death-rune {
+  font-size: 3.1rem;
+  text-shadow: 0 0 18px var(--red);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ending-dialog .secondary-button {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--ink);
+  background: transparent;
+}
+
+.screen.is-dead canvas {
+  filter: contrast(1.5) hue-rotate(75deg);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  body {
+    padding: 0;
+    background: #070b12;
+  }
+
+  .machine {
+    min-height: 100vh;
+    padding: 14px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .machine__header {
+    align-items: flex-start;
+    padding-bottom: 13px;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+  }
+
+  .header-actions {
+    display: grid;
+  }
+
+  .icon-button {
+    min-height: 34px;
+    padding: 5px 7px;
+    font-size: 0.72rem;
+  }
+
+  .game-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "scene"
+      "status"
+      "terminal";
+  }
+
+  .scene-panel {
+    border-right: 0;
+  }
+
+  .status-panel {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 10px 18px;
+    padding: 11px 13px;
+  }
+
+  .status-panel section:first-child {
+    grid-row: span 2;
+  }
+
+  .status-panel h2 {
+    margin-bottom: 4px;
+  }
+
+  .status-panel p,
+  .inventory-list {
+    font-size: 0.8rem;
+  }
+
+  .warmth span {
+    width: 25px;
+    height: 10px;
+  }
+
+  .terminal-panel {
+    padding: 13px;
+  }
+
+  .game-log {
+    height: 210px;
+  }
+
+  .log-entry {
+    font-size: 0.94rem;
+  }
+
+  .suggestion-wrap {
+    display: block;
+  }
+
+  .suggestion-wrap > span {
+    display: block;
+    margin-bottom: 7px;
+    padding-top: 0;
+  }
+
+  .suggestions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 2px 2px 7px;
+    scrollbar-width: thin;
+  }
+
+  .suggestions button {
+    flex: 0 0 auto;
+  }
+
+  .machine__footer {
+    padding-top: 13px;
+  }
+
+  .machine__footer p:first-child {
+    display: none;
+  }
+
+  .machine__footer p:last-child {
+    margin-left: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
