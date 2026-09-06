@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Le Château du Seigneur des Ténèbres, deuxième aventure textuelle rétro en français."
+    />
+    <meta name="theme-color" content="#070b12" />
+    <title>Le Château du Seigneur des Ténèbres</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="machine" aria-label="Jeu Le Château du Seigneur des Ténèbres">
+      <header class="machine__header">
+        <div>
+          <p class="eyebrow">Épisode II · Aventure sur micro-ordinateur · 1988</p>
+          <h1>Le Château du Seigneur des Ténèbres</h1>
+        </div>
+        <div class="header-actions">
+          <a class="icon-button episode-link" href="index.html">Retour au village</a>
+          <button class="icon-button" id="soundButton" type="button" aria-pressed="false">
+            Son + musique : non
+          </button>
+          <button class="icon-button" id="restartButton" type="button">Recommencer</button>
+        </div>
+      </header>
+
+      <section class="screen" aria-label="Écran du jeu">
+        <div class="screen__glow" aria-hidden="true"></div>
+        <div class="screen__scanlines" aria-hidden="true"></div>
+
+        <div class="game-grid">
+          <section class="scene-panel" aria-label="Illustration du lieu">
+            <canvas
+              id="sceneCanvas"
+              width="320"
+              height="180"
+              role="img"
+              aria-label="La salle actuelle de la grotte"
+            ></canvas>
+            <div class="scene-caption">
+              <span id="roomName">Les douves noires</span>
+              <span id="roomIndex">01 / 11</span>
+            </div>
+          </section>
+
+          <aside class="status-panel" aria-label="État de l'aventure">
+            <section>
+              <h2>Mission</h2>
+              <p id="objective">Entrer dans le château sans donner l’alerte.</p>
+            </section>
+            <section>
+              <h2>Courage</h2>
+              <div id="warmth" class="warmth" aria-label="Courage : quatre sur quatre"></div>
+            </section>
+            <section>
+              <h2>Inventaire</h2>
+              <ul id="inventory" class="inventory-list">
+                <li class="empty">Rien pour l'instant</li>
+              </ul>
+            </section>
+          </aside>
+
+          <section class="terminal-panel">
+            <div id="gameLog" class="game-log" role="log" aria-live="polite"></div>
+
+            <form id="commandForm" class="command-form" autocomplete="off">
+              <label for="commandInput">Que fais-tu&nbsp;?</label>
+              <div class="command-row">
+                <span aria-hidden="true">&gt;</span>
+                <input
+                  id="commandInput"
+                  name="command"
+                  type="text"
+                  inputmode="text"
+                  autocapitalize="sentences"
+                  enterkeyhint="send"
+                  placeholder="Écris une commande…"
+                  aria-describedby="commandHelp"
+                />
+                <button type="submit">Entrée</button>
+              </div>
+              <p id="commandHelp" class="sr-only">
+                Par exemple : regarder, prendre la lanterne, aller au nord ou inventaire.
+              </p>
+            </form>
+
+            <div class="suggestion-wrap">
+              <span>Idées</span>
+              <div id="suggestions" class="suggestions" aria-label="Commandes suggérées"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <footer class="machine__footer">
+        <p><kbd>AIDE</kbd> commandes · <kbd>INDICE</kbd> coup de pouce · accents facultatifs</p>
+        <p id="moveCounter">0 commande</p>
+      </footer>
+    </main>
+
+    <dialog id="endingDialog" class="ending-dialog">
+      <div class="ending-art" aria-hidden="true">✦</div>
+      <p class="eyebrow">Aventure terminée</p>
+      <h2>L’anneau dérobé</h2>
+      <p id="endingText"></p>
+      <button id="playAgainButton" type="button">Rejouer l’aventure</button>
+    </dialog>
+
+    <dialog id="deathDialog" class="ending-dialog death-dialog">
+      <div class="death-rune" aria-hidden="true">☠</div>
+      <p class="eyebrow">Vous êtes mort</p>
+      <h2 id="deathTitle">Le château vous a vaincu</h2>
+      <p id="deathText"></p>
+      <div class="dialog-actions">
+        <button id="continueButton" type="button">Reprendre au dernier refuge</button>
+        <button id="deathRestartButton" class="secondary-button" type="button">Tout recommencer</button>
+      </div>
+    </dialog>
+
+    <script src="episode2.js"></script>
+  </body>
+</html>

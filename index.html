@@ -3,122 +3,72 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Une aventure textuelle rétro en français, jouable en une trentaine de minutes."
-    />
+    <meta name="description" content="Les Chroniques des Terres Obscures, une série d’aventures textuelles rétro." />
     <meta name="theme-color" content="#070b12" />
-    <title>La Grotte du Sorcier de Givre</title>
+    <title>Les Chroniques des Terres Obscures</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="machine" aria-label="Jeu La Grotte du Sorcier de Givre">
+    <main class="machine home-machine" aria-label="Les Chroniques des Terres Obscures">
       <header class="machine__header">
         <div>
-          <p class="eyebrow">Aventure sur micro-ordinateur · 1987</p>
-          <h1>La Grotte du Sorcier de Givre</h1>
-        </div>
-        <div class="header-actions">
-          <button class="icon-button" id="soundButton" type="button" aria-pressed="false">
-            Son : non
-          </button>
-          <button class="icon-button" id="restartButton" type="button">Recommencer</button>
+          <p class="eyebrow">Aventures sur micro-ordinateur · Depuis 1987</p>
+          <h1>Les Chroniques des Terres Obscures</h1>
         </div>
       </header>
 
-      <section class="screen" aria-label="Écran du jeu">
+      <section class="screen home-screen" aria-label="Le village et les quêtes disponibles">
         <div class="screen__glow" aria-hidden="true"></div>
         <div class="screen__scanlines" aria-hidden="true"></div>
-
-        <div class="game-grid">
-          <section class="scene-panel" aria-label="Illustration du lieu">
-            <canvas
-              id="sceneCanvas"
-              width="320"
-              height="180"
-              role="img"
-              aria-label="La salle actuelle de la grotte"
-            ></canvas>
-            <div class="scene-caption">
-              <span id="roomName">Entrée des vents</span>
-              <span id="roomIndex">01 / 10</span>
-            </div>
+        <div class="village-hero">
+          <img src="assets/village-ruines.png" alt="Le héros contemple les ruines de son village sous la lune" />
+          <div class="scene-caption">
+            <span>Le village sans nom</span>
+            <span>Votre refuge</span>
+          </div>
+        </div>
+        <div class="village-content">
+          <section class="village-lore" aria-labelledby="village-title">
+            <p class="eyebrow">Là où commencent les légendes</p>
+            <h2 id="village-title">Il ne reste que des ruines.</h2>
+            <p>Les armées de l’Ombre ont incendié votre foyer et dispersé les survivants. Depuis cette nuit, vous parcourez les Terres Obscures à la recherche des puissances qui ont condamné les vôtres.</p>
+            <p>Entre deux expéditions, vous revenez auprès du dernier feu du village. C’est ici que les chemins se séparent — et que vous choisissez votre prochaine quête.</p>
           </section>
 
-          <aside class="status-panel" aria-label="État de l'aventure">
-            <section>
-              <h2>Mission</h2>
-              <p id="objective">Trouver un passage vers le sorcier.</p>
-            </section>
-            <section>
-              <h2>Chaleur</h2>
-              <div id="warmth" class="warmth" aria-label="Chaleur : trois sur trois"></div>
-            </section>
-            <section>
-              <h2>Inventaire</h2>
-              <ul id="inventory" class="inventory-list">
-                <li class="empty">Rien pour l'instant</li>
-              </ul>
-            </section>
-          </aside>
+          <section class="quest-selector" aria-labelledby="quests-title">
+            <div class="quest-heading">
+              <p class="eyebrow">Chroniques disponibles</p>
+              <h2 id="quests-title">Choisissez votre quête</h2>
+            </div>
+            <div class="quest-grid">
+              <a class="quest-card" href="episode1.html">
+                <img src="assets/scene-entree.png" alt="L’entrée glacée de la grotte" />
+                <div class="quest-card__body">
+                  <span class="quest-number">Épisode I</span>
+                  <h3>La Grotte du Sorcier de Givre</h3>
+                  <p>Brisez le sortilège qui condamne la vallée à un hiver sans fin.</p>
+                  <span class="quest-start">Commencer la quête <span aria-hidden="true">›</span></span>
+                </div>
+              </a>
 
-          <section class="terminal-panel">
-            <div id="gameLog" class="game-log" role="log" aria-live="polite"></div>
-
-            <form id="commandForm" class="command-form" autocomplete="off">
-              <label for="commandInput">Que fais-tu&nbsp;?</label>
-              <div class="command-row">
-                <span aria-hidden="true">&gt;</span>
-                <input
-                  id="commandInput"
-                  name="command"
-                  type="text"
-                  inputmode="text"
-                  autocapitalize="sentences"
-                  enterkeyhint="send"
-                  placeholder="Écris une commande…"
-                  aria-describedby="commandHelp"
-                />
-                <button type="submit">Entrée</button>
-              </div>
-              <p id="commandHelp" class="sr-only">
-                Par exemple : regarder, prendre la lanterne, aller au nord ou inventaire.
-              </p>
-            </form>
-
-            <div class="suggestion-wrap">
-              <span>Idées</span>
-              <div id="suggestions" class="suggestions" aria-label="Commandes suggérées"></div>
+              <a class="quest-card" href="episode2.html">
+                <img src="assets/e2-douves.png" alt="Le château au-delà de ses douves noires" />
+                <div class="quest-card__body">
+                  <span class="quest-number">Épisode II</span>
+                  <h3>Le Château du Seigneur des Ténèbres</h3>
+                  <p>Infiltrez la forteresse et dérobez l’anneau qui nourrit sa puissance.</p>
+                  <span class="quest-start">Commencer la quête <span aria-hidden="true">›</span></span>
+                </div>
+              </a>
             </div>
           </section>
         </div>
       </section>
 
       <footer class="machine__footer">
-        <p><kbd>AIDE</kbd> commandes · <kbd>INDICE</kbd> coup de pouce · accents facultatifs</p>
-        <p id="moveCounter">0 commande</p>
+        <p>Deux quêtes · Environ 30 minutes chacune</p>
+        <p>Le village se souvient</p>
       </footer>
     </main>
-
-    <dialog id="endingDialog" class="ending-dialog">
-      <div class="ending-art" aria-hidden="true">✦</div>
-      <p class="eyebrow">Aventure terminée</p>
-      <h2>Le printemps revient</h2>
-      <p id="endingText"></p>
-      <button id="playAgainButton" type="button">Rejouer l’aventure</button>
-    </dialog>
-
-    <dialog id="deathDialog" class="ending-dialog death-dialog">
-      <div class="death-rune" aria-hidden="true">☠</div>
-      <p class="eyebrow">Vous êtes mort</p>
-      <h2 id="deathTitle">La montagne vous a vaincu</h2>
-      <p id="deathText"></p>
-      <div class="dialog-actions">
-        <button id="continueButton" type="button">Reprendre au dernier refuge</button>
-        <button id="deathRestartButton" class="secondary-button" type="button">Tout recommencer</button>
-      </div>
-    </dialog>
-
-    <script src="game.js"></script>
   </body>
 </html>

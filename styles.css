@@ -42,8 +42,16 @@ button {
   color: inherit;
 }
 
+.episode-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+.episode-link:focus-visible {
   outline: 3px solid var(--amber);
   outline-offset: 3px;
 }
@@ -487,6 +495,134 @@ kbd {
   filter: contrast(1.5) hue-rotate(75deg);
 }
 
+.home-machine {
+  max-width: 1050px;
+}
+
+.home-screen {
+  padding-bottom: clamp(20px, 3vw, 34px);
+}
+
+.village-hero {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.village-hero img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.village-hero .scene-caption {
+  border-top: 1px solid var(--line);
+}
+
+.village-content {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.6fr);
+  gap: clamp(24px, 4vw, 46px);
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.village-content h2,
+.quest-card h3 {
+  margin: 0;
+  color: var(--cyan);
+}
+
+.village-lore h2,
+.quest-heading h2 {
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  line-height: 1.25;
+}
+
+.village-lore > p:not(.eyebrow) {
+  margin: 16px 0 0;
+  color: #c6e7e7;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.quest-heading {
+  margin-bottom: 16px;
+}
+
+.quest-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.quest-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.34);
+  border-radius: 4px;
+  color: var(--ink);
+  background: rgba(0, 255, 255, 0.035);
+  text-decoration: none;
+  transition: border-color 120ms ease, background 120ms ease, transform 80ms ease;
+}
+
+.quest-card:hover,
+.quest-card:focus-visible {
+  border-color: var(--cyan);
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.quest-card:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.quest-card:active {
+  transform: translateY(1px);
+}
+
+.quest-card > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-bottom: 1px solid var(--line);
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.quest-card__body {
+  padding: 14px;
+}
+
+.quest-number {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--amber);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.quest-card h3 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.quest-card p {
+  margin: 10px 0 16px;
+  color: #a9c9c9;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.quest-start {
+  color: var(--cyan);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -516,6 +652,20 @@ kbd {
   .machine__header {
     align-items: flex-start;
     padding-bottom: 13px;
+  }
+
+  .village-content {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 22px 16px 26px;
+  }
+
+  .quest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .village-lore > p:not(.eyebrow) {
+    font-size: 0.94rem;
   }
 
   .eyebrow {

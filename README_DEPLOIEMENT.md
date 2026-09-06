@@ -1,30 +1,29 @@
-# La Grotte du Sorcier de Givre
+# Les Chroniques des Terres Obscures — épisodes I et II
 
-Jeu d'aventure statique en HTML, CSS et JavaScript. Aucun serveur Node.js, aucune base de données et aucune compilation ne sont nécessaires.
+Les deux jeux sont entièrement statiques : HTML, CSS et JavaScript exécutés dans le navigateur. Il n'y a ni serveur Node.js, ni base de données, ni compilation à effectuer.
 
 ## Contenu
 
-- `index.html` : page du jeu
-- `styles.css` : interface et rendu rétro
-- `game.js` : moteur, énigmes et progression
-- `assets/` : illustrations CGA
+- `index.html` : village en ruine et sélecteur de quête
+- `episode1.html` : épisode I — La Grotte du Sorcier de Givre
+- `episode2.html` : épisode II — Le Château du Seigneur des Ténèbres
+- `game.js` et `episode2.js` : moteurs et intrigues des deux épisodes
+- `styles.css` : interface commune
+- `assets/` : toutes les illustrations CGA
 
-## Installation sur le VPS
+La musique du deuxième épisode est synthétisée directement par le navigateur. Aucun fichier audio supplémentaire n'est nécessaire.
 
-1. Décompresser l'archive dans un répertoire web, par exemple :
+## Déploiement sur le VPS
 
-   ```bash
-   sudo mkdir -p /var/www/grotte-sorcier
-   sudo unzip grotte-sorcier-vps.zip -d /var/www/grotte-sorcier
-   ```
+Décompresser l'archive dans le répertoire servi par votre serveur web :
 
-2. Donner au serveur web l'accès en lecture :
+```bash
+sudo mkdir -p /var/www/grotte-sorcier
+sudo unzip grotte-sorcier-episodes-1-2-vps.zip -d /var/www/grotte-sorcier
+sudo chown -R www-data:www-data /var/www/grotte-sorcier
+```
 
-   ```bash
-   sudo chown -R www-data:www-data /var/www/grotte-sorcier
-   ```
-
-## Configuration Caddy
+## Avec Caddy
 
 Ajouter au `Caddyfile` :
 
@@ -41,9 +40,7 @@ Puis recharger Caddy :
 sudo systemctl reload caddy
 ```
 
-## Configuration Nginx
-
-Créer un hôte avec cette configuration :
+## Avec Nginx
 
 ```nginx
 server {
@@ -58,11 +55,11 @@ server {
 }
 ```
 
-Après activation du site, vérifier puis recharger Nginx :
+Après activation de la configuration :
 
 ```bash
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-Le jeu fonctionne entièrement dans le navigateur. HTTPS peut être géré directement par Caddy ou par Certbot avec Nginx.
+Le village et le sélecteur de quête sont accessibles à la racine du site. Dans chaque aventure, le bouton « Retour au village » permet de revenir au choix des épisodes.
