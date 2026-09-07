@@ -1,17 +1,23 @@
-# Les Chroniques des Terres Obscures — épisodes I et II
+# Les Chroniques des Terres Obscures — épisodes I à III
 
-Les deux jeux sont entièrement statiques : HTML, CSS et JavaScript exécutés dans le navigateur. Il n'y a ni serveur Node.js, ni base de données, ni compilation à effectuer.
+Les trois jeux sont entièrement statiques : HTML, CSS et JavaScript exécutés dans le navigateur. Il n'y a ni serveur Node.js, ni base de données, ni compilation à effectuer.
 
 ## Contenu
 
 - `index.html` : village en ruine et sélecteur de quête
 - `episode1.html` : épisode I — La Grotte du Sorcier de Givre
 - `episode2.html` : épisode II — Le Château du Seigneur des Ténèbres
-- `game.js` et `episode2.js` : moteurs et intrigues des deux épisodes
+- `episode3.html` : épisode III — La Forêt de l’Ombre Sans Nom
+- `game.js`, `episode2.js` et `episode3.js` : moteurs et intrigues des trois épisodes
+- `chronicles.js` : inventaire persistant partagé entre les quêtes
 - `styles.css` : interface commune
 - `assets/` : toutes les illustrations CGA
 
-La musique du deuxième épisode est synthétisée directement par le navigateur. Aucun fichier audio supplémentaire n'est nécessaire.
+La musique des épisodes est synthétisée directement par le navigateur. Aucun fichier audio supplémentaire n'est nécessaire.
+
+## Règle éditoriale pour les prochaines quêtes
+
+Sur `index.html`, la vignette d’une quête doit toujours reprendre sa première scène jouable ou son image d’ouverture. Elle ne doit jamais révéler un lieu, un adversaire ou un événement découvert plus tard dans l’aventure, en particulier la scène finale.
 
 ## Déploiement sur le VPS
 

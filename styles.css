@@ -592,17 +592,6 @@ kbd {
   image-rendering: pixelated;
 }
 
-.quest-card__image {
-  background-repeat: no-repeat;
-  background-color: #000;
-}
-
-.e3-thumb {
-  background-image: url("assets/e3-forest-sheet.png");
-  background-position: 100% 100%;
-  background-size: 300% 300%;
-}
-
 .quest-card__body {
   padding: 14px;
 }
