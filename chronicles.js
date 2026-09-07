@@ -6,6 +6,7 @@
     cle_montagne: "Clé de la Montagne",
     anneau_ombres: "Anneau des Ombres",
     epee_aube: "Épée de l’Aube Muette",
+    grimoire_runique: "Grimoire runique rendu aux Nains",
   };
 
   function read() {

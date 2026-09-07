@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="La Montagne du Dragon Noir, quatrième aventure textuelle rétro des Chroniques des Terres Obscures." />
+    <meta name="theme-color" content="#070b12" />
+    <title>La Montagne du Dragon Noir</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://stats.baillylab.fr/script.js" data-website-id="c565782b-5375-47bb-89ef-7c76d2ce808c"></script>
+  </head>
+  <body>
+    <main class="machine" aria-label="Jeu La Montagne du Dragon Noir">
+      <header class="machine__header">
+        <div>
+          <p class="eyebrow">Épisode IV · Aventure sur micro-ordinateur · 1990</p>
+          <h1>La Montagne du Dragon Noir</h1>
+        </div>
+        <div class="header-actions">
+          <a class="icon-button episode-link" href="index.html">Retour au village</a>
+          <button class="icon-button" id="soundButton" type="button" aria-pressed="true">Son + musique : oui</button>
+          <button class="icon-button" id="restartButton" type="button">Recommencer</button>
+        </div>
+      </header>
+
+      <section class="screen" aria-label="Écran du jeu">
+        <div class="screen__glow" aria-hidden="true"></div>
+        <div class="screen__scanlines" aria-hidden="true"></div>
+        <div class="game-grid">
+          <section class="scene-panel" aria-label="Illustration du lieu">
+            <canvas id="sceneCanvas" width="320" height="180" role="img" aria-label="Le lieu actuel dans la montagne"></canvas>
+            <div class="scene-caption"><span id="roomName">Le camp des Nains</span><span id="roomIndex">01 / 09</span></div>
+          </section>
+          <aside class="status-panel" aria-label="État de l’aventure">
+            <section><h2>Mission</h2><p id="objective">Entrer dans la montagne et retrouver le grimoire runique.</p></section>
+            <section><h2>Vigueur</h2><div id="warmth" class="warmth" aria-label="Vigueur : quatre sur quatre"></div></section>
+            <section><h2>Inventaire</h2><ul id="inventory" class="inventory-list"><li class="empty">Rien pour l’instant</li></ul></section>
+          </aside>
+          <section class="terminal-panel">
+            <div id="gameLog" class="game-log" role="log" aria-live="polite"></div>
+            <form id="commandForm" class="command-form" autocomplete="off">
+              <label for="commandInput">Que fais-tu&nbsp;?</label>
+              <div class="command-row">
+                <span aria-hidden="true">&gt;</span>
+                <input id="commandInput" name="command" type="text" inputmode="text" autocapitalize="sentences" enterkeyhint="send" placeholder="Écris une commande…" aria-describedby="commandHelp" />
+                <button type="submit">Entrée</button>
+              </div>
+              <p id="commandHelp" class="sr-only">Par exemple : parler aux nains, examiner la porte, prendre le soufflet ou aller au nord.</p>
+            </form>
+            <div class="suggestion-wrap"><span>Idées</span><div id="suggestions" class="suggestions" aria-label="Commandes suggérées"></div></div>
+          </section>
+        </div>
+      </section>
+      <footer class="machine__footer"><p><kbd>AIDE</kbd> commandes · <kbd>INDICE</kbd> coup de pouce · accents facultatifs</p><p id="moveCounter">0 commande</p></footer>
+    </main>
+
+    <dialog id="endingDialog" class="ending-dialog">
+      <div class="ending-art" aria-hidden="true">ᚱ</div>
+      <p class="eyebrow">Aventure terminée</p>
+      <h2>Le grimoire retrouvé</h2>
+      <p id="endingText"></p>
+      <button id="playAgainButton" type="button">Rejouer l’aventure</button>
+    </dialog>
+    <dialog id="deathDialog" class="ending-dialog death-dialog">
+      <div class="death-rune" aria-hidden="true">☠</div>
+      <p class="eyebrow">Vous êtes mort</p>
+      <h2 id="deathTitle">La montagne se referme</h2>
+      <p id="deathText"></p>
+      <div class="dialog-actions">
+        <button id="continueButton" type="button">Reprendre au dernier refuge</button>
+        <button id="deathRestartButton" class="secondary-button" type="button">Tout recommencer</button>
+      </div>
+    </dialog>
+    <script src="chronicles.js"></script>
+    <script src="episode4.js"></script>
+  </body>
+</html>
