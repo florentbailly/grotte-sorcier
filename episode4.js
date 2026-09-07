@@ -358,8 +358,8 @@ function combine(command) {
   addLog("Ces éléments ne se combinent pas.");
 }
 
-function attack(command) {
-  if (state.room !== "tresor" || !includesAny(command, ["dragon", "bete", "monstre"])) return addLog("Tu ne vois aucun adversaire à frapper.");
+function attack() {
+  if (state.room !== "tresor") return addLog("Tu ne vois aucun adversaire à frapper.");
   if (state.flags.dragonDefeated) return addLog("Le Dragon Noir ne se relèvera pas.");
   if (!ownsSword()) return killPlayer("Le cœur de la fournaise", "Tu charges avec une arme ordinaire. Elle fond avant d’atteindre les écailles, et le souffle suivant t’efface jusqu’à l’ombre.");
   state.flags.dragonDefeated = true;
@@ -436,6 +436,9 @@ function submitCommand(raw) {
   const directionMap = { n: "nord", nord: "nord", s: "sud", sud: "sud", e: "est", est: "est", o: "ouest", ouest: "ouest" };
   const words = command.split(" ");
   const direction = words.map((word) => directionMap[word]).find(Boolean);
+  const directCombat = includesAny(command, ["attaquer", "frapper", "combattre", "tuer", "affronter", "transpercer", "charger", "assener", "porter un coup", "donner un coup", "frapper le coeur", "percer le coeur"]);
+  const swordCombat = includesAny(command, ["epee", "lame", "aube muette"]) && includesAny(command, ["utiliser", "brandir", "degainer", "lever", "manier", "planter", "enfoncer"]);
+  const flameDefense = includesAny(command, ["parer", "repousser", "detourner", "bloquer"]) && includesAny(command, ["flamme", "feu", "souffle"]);
   if (direction && (words.length === 1 || includesAny(command, ["aller", "va", "marcher", "prendre le chemin", "entrer", "retourner"]))) move(direction);
   else if (includesAny(command, ["aide", "commandes"])) addLog("Commandes utiles : REGARDER, EXAMINER, PARLER, PRENDRE, LIRE, UTILISER, MÉLANGER, FOUILLER, ATTAQUER, INVENTAIRE, INDICE et les directions NORD, SUD, EST, OUEST.", "system");
   else if (includesAny(command, ["indice", "aide moi", "bloque"])) hint();
@@ -447,7 +450,8 @@ function submitCommand(raw) {
   else if (includesAny(command, ["regarder", "observer", "decrire", "autour"]) && !includesAny(command, ["examiner", "prendre"])) addLog(roomDescription());
   else if (includesAny(command, ["parler", "questionner", "demander", "ecouter"])) speak(command);
   else if (includesAny(command, ["melanger", "combiner", "assembler", "preparer", "fabriquer"])) combine(command);
-  else if (includesAny(command, ["attaquer", "frapper", "combattre", "tuer", "affronter", "transpercer"])) attack(command);
+  else if (state.room === "tresor" && (directCombat || swordCombat || flameDefense)) attack();
+  else if (directCombat) attack();
   else if (includesAny(command, ["fouiller", "chercher dans"]) && state.room === "lac") searchSatchel();
   else if (includesAny(command, ["lire", "dechiffrer", "consulter"])) read(command);
   else if (includesAny(command, ["prendre", "ramasser", "recueillir", "saisir", "voler", "decrocher"])) take(command);
