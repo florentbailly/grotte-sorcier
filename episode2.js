@@ -74,7 +74,7 @@ const sceneImages = Object.fromEntries(Object.entries(SCENE_SOURCES).map(([key, 
 let state;
 let checkpoint;
 let checkpointLabel = "les douves";
-let soundEnabled = false;
+let soundEnabled = true;
 let audioContext = null;
 let musicTimer = null;
 let musicStep = 0;
@@ -267,10 +267,10 @@ function takeRing(command) {
   if (!includesAny(command, ["onyx", "noir", "ombre"])) return addLog("Lequel : l’anneau d’or, de fer ou d’onyx ?");
   if (!state.flags.libraryRead) return killPlayer("Le choix sans savoir", "Tu tends la main sans connaître le serment des anneaux. Les trois rayons se rejoignent et effacent jusqu’à ton ombre.");
   if (!state.flags.ringsTested) return addLog("Le rayon repousse ta main. Il faut d’abord éprouver les anneaux sous la lumière qui leur est destinée.", "danger");
-  state.flags.won = true; addLog("Tu saisis l’onyx. Le rayon s’éteint. Au-dessus de toi, le Seigneur pousse un cri tandis que le château se lézarde. Sa puissance tient désormais dans ta paume.", "reward"); beep("victory"); renderStatus();
+  state.flags.won = true; window.ChroniclesInventory?.add("anneau_ombres"); addLog("Tu saisis l’onyx. Le rayon s’éteint. Au-dessus de toi, le Seigneur pousse un cri tandis que le château se lézarde. Sa puissance tient désormais dans ta paume.", "reward"); beep("victory"); renderStatus();
   const elapsed = Math.max(1, Math.round((Date.now() - state.startedAt) / 60000));
   endingText.textContent = `Tu as dérobé l’Anneau des Ombres en ${state.commands} commandes, après ${state.deaths} mort${state.deaths > 1 ? "s" : ""}, et environ ${elapsed} minute${elapsed > 1 ? "s" : ""}. Privé de sa puissance, le Seigneur des Ténèbres disparaît avec son château.`;
-  window.setTimeout(() => endingDialog.showModal(), 650);
+  window.setTimeout(() => endingDialog.showModal(), 8000);
 }
 
 function useItem(command) {
@@ -326,7 +326,7 @@ function loseCourage(amount) {
   if (!state.courage) killPlayer("La peur sans visage", "Le château entre dans tes pensées. Tu oublies ton nom, ta mission, puis jusqu’à la raison de continuer à respirer.");
 }
 function killPlayer(title, text) {
-  if (state.pendingDeath) return; state.pendingDeath = true; state.deaths += 1; deathTitle.textContent = title; deathText.textContent = text; screenEl.classList.add("is-dead"); renderStatus(); beep("danger"); window.setTimeout(() => deathDialog.showModal(), 350);
+  if (state.pendingDeath) return; state.pendingDeath = true; state.deaths += 1; deathTitle.textContent = title; deathText.textContent = text; screenEl.classList.add("is-dead"); renderStatus(); beep("danger"); window.setTimeout(() => deathDialog.showModal(), 8000);
 }
 function continueFromCheckpoint() {
   const meta = { commands: state.commands, deaths: state.deaths, startedAt: state.startedAt };
@@ -376,7 +376,7 @@ function resetGame() {
   addLog("COMTÉ DE RAVENNE, AUTOMNE 1988. Après la chute du Sorcier de Givre, une ombre a englouti l’est. Le Seigneur des Ténèbres tire sa puissance d’un anneau caché dans son château. Ta mission n’est pas de le vaincre : entre, vole l’anneau et ressors vivant.", "system"); showRoom();
 }
 
-function ensureAudio() { if (!audioContext) { const Audio = window.AudioContext || window.webkitAudioContext; if (Audio) audioContext = new Audio(); } if (audioContext?.state === "suspended") audioContext.resume(); }
+async function ensureAudio() { if (!audioContext) { const Audio = window.AudioContext || window.webkitAudioContext; if (Audio) audioContext = new Audio(); } if (audioContext?.state === "suspended") { try { await audioContext.resume(); } catch { /* une nouvelle interaction pourra relancer l’audio */ } } return audioContext; }
 function tone(frequency, duration, delay = 0, type = "square", volume = 0.02) {
   if (!soundEnabled) return; ensureAudio(); if (!audioContext) return;
   const oscillator = audioContext.createOscillator(), gain = audioContext.createGain(), start = audioContext.currentTime + delay;
@@ -415,6 +415,7 @@ function musicTick() {
 }
 function startMusic() { stopMusic(); ensureAudio(); musicStep = 0; musicTick(); musicTimer = window.setInterval(musicTick, 300); }
 function stopMusic() { if (musicTimer !== null) window.clearInterval(musicTimer); musicTimer = null; }
+async function activateDefaultAudio() { if (!soundEnabled) return; await ensureAudio(); if (soundEnabled && musicTimer === null) startMusic(); }
 function currentSceneKey() { return state.room === "douves" ? (state.flags.gateOpened ? "douves-ouvertes" : "douves-fermees") : state.room; }
 function drawScene() {
   ctx.imageSmoothingEnabled = false; ctx.fillStyle = "#000000"; ctx.fillRect(0, 0, canvas.width, canvas.height); const image = sceneImages[currentSceneKey()];
@@ -424,5 +425,7 @@ function drawScene() {
 
 commandForm.addEventListener("submit", (event) => { event.preventDefault(); submitCommand(commandInput.value); });
 restartButton.addEventListener("click", resetGame); playAgainButton.addEventListener("click", resetGame); continueButton.addEventListener("click", continueFromCheckpoint); deathRestartButton.addEventListener("click", resetGame);
-soundButton.addEventListener("click", () => { soundEnabled = !soundEnabled; soundButton.setAttribute("aria-pressed", String(soundEnabled)); soundButton.textContent = `Son + musique : ${soundEnabled ? "oui" : "non"}`; if (soundEnabled) { ensureAudio(); beep("item"); startMusic(); } else stopMusic(); });
+document.addEventListener("pointerdown", activateDefaultAudio, { once: true, capture: true });
+document.addEventListener("keydown", activateDefaultAudio, { once: true, capture: true });
+soundButton.addEventListener("click", async () => { soundEnabled = !soundEnabled; soundButton.setAttribute("aria-pressed", String(soundEnabled)); soundButton.textContent = `Son + musique : ${soundEnabled ? "oui" : "non"}`; if (soundEnabled) { await ensureAudio(); if (!soundEnabled) return; beep("item"); startMusic(); } else stopMusic(); });
 resetGame();

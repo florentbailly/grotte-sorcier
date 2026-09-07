@@ -69,8 +69,10 @@ const SCENE_SOURCES = {
 let state;
 let checkpoint;
 let checkpointLabel = "l’entrée";
-let soundEnabled = false;
+let soundEnabled = true;
 let audioContext = null;
+let musicTimer = null;
+let musicStep = 0;
 
 const sceneImages = Object.fromEntries(
   Object.entries(SCENE_SOURCES).map(([key, source]) => {
@@ -360,10 +362,10 @@ function reflectRay() {
 function winGame() {
   if (state.room !== "sanctuaire" || !owns("braise")) return addLog("Il te manque la chaleur capable de rompre ce sort.");
   if (!state.flags.shieldBroken) { addLog("Le halo absorbe la chaleur et te renvoie une bourrasque glacée.", "danger"); loseWarmth(2); return; }
-  state.flags.won = true; addLog("La braise touche le sceptre. Le givre devient eau, le bâton se brise et le sorcier s’efface. Au-dehors, la montagne reverdit.", "reward"); beep("victory"); renderStatus();
+  state.flags.won = true; window.ChroniclesInventory?.add("cle_montagne"); addLog("La braise touche le sceptre. Le givre devient eau, le bâton se brise et le sorcier s’efface. Au-dehors, la montagne reverdit.", "reward"); beep("victory"); renderStatus();
   const elapsed = Math.max(1, Math.round((Date.now() - state.startedAt) / 60000));
   endingText.textContent = `Tu as vaincu le Sorcier de Givre en ${state.commands} commandes, après ${state.deaths} mort${state.deaths > 1 ? "s" : ""}, et environ ${elapsed} minute${elapsed > 1 ? "s" : ""}. La clé de la montagne est à toi.`;
-  window.setTimeout(() => endingDialog.showModal(), 650);
+  window.setTimeout(() => endingDialog.showModal(), 8000);
 }
 function useItem(command) {
   const hasLantern = command.includes("lanterne"), hasFlint = command.includes("silex"), hasCoin = includesAny(command, ["piece", "monnaie"]);
@@ -393,7 +395,7 @@ function loseWarmth(amount) {
   if (state.warmth === 0) killPlayer("Le froid absolu", "Tes doigts cessent de répondre. La glace gagne ton cœur et le silence referme la caverne.");
 }
 function killPlayer(title, text) {
-  if (state.pendingDeath) return; state.pendingDeath = true; state.deaths += 1; deathTitle.textContent = title; deathText.textContent = text; screenEl.classList.add("is-dead"); renderStatus(); beep("danger"); window.setTimeout(() => deathDialog.showModal(), 350);
+  if (state.pendingDeath) return; state.pendingDeath = true; state.deaths += 1; deathTitle.textContent = title; deathText.textContent = text; screenEl.classList.add("is-dead"); renderStatus(); beep("danger"); window.setTimeout(() => deathDialog.showModal(), 8000);
 }
 function continueFromCheckpoint() {
   const meta = { commands: state.commands, deaths: state.deaths, startedAt: state.startedAt };
@@ -448,9 +450,10 @@ function resetGame() {
   if (endingDialog.open) endingDialog.close(); if (deathDialog.open) deathDialog.close(); screenEl.classList.remove("is-dead");
   addLog("MONT MORNE, HIVER 1987. Le Sorcier de Givre a enfermé le printemps sous la montagne. Les morts précédents n’ont laissé que des indices — et des pièges.", "system"); showRoom();
 }
-function ensureAudio() {
+async function ensureAudio() {
   if (!audioContext) { const Audio = window.AudioContext || window.webkitAudioContext; if (Audio) audioContext = new Audio(); }
-  if (audioContext?.state === "suspended") audioContext.resume();
+  if (audioContext?.state === "suspended") { try { await audioContext.resume(); } catch { /* une nouvelle interaction pourra relancer l’audio */ } }
+  return audioContext;
 }
 function tone(frequency, duration, delay = 0, type = "square", volume = 0.025) {
   if (!soundEnabled) return; ensureAudio(); if (!audioContext) return;
@@ -463,6 +466,17 @@ function beep(kind) {
   if (kind === "item") { tone(392, 0.08); tone(523, 0.12, 0.07); } if (kind === "success") { tone(262, 0.09); tone(392, 0.09, 0.08); tone(659, 0.16, 0.16); }
   if (kind === "danger") tone(82, 0.3, 0, "sawtooth", 0.03); if (kind === "victory") [262, 330, 392, 523].forEach((note, i) => tone(note, 0.35, i * 0.12, "square", 0.022));
 }
+const MUSIC = {
+  cavern: [38, null, 41, 45, 40, null, 36, 43, 38, null, 35, 42, 37, null, 34, null],
+  danger: [33, 34, 40, 39, 33, 46, 45, 34, 32, 38, 39, 45, 44, 38, 33, null],
+  sanctuary: [36, null, 43, 42, 36, 48, null, 35, 36, 47, 43, null, 34, 41, 36, null],
+};
+function midiToHz(note) { return 440 * (2 ** ((note - 69) / 12)); }
+function musicPattern() { if (includesAny(state.room, ["gouffre", "leviers"])) return MUSIC.danger; if (state.room === "sanctuaire") return MUSIC.sanctuary; return MUSIC.cavern; }
+function musicTick() { if (!soundEnabled || !audioContext || state.pendingDeath || state.flags.won) return; const pattern = musicPattern(), note = pattern[musicStep % pattern.length]; if (note) tone(midiToHz(note), 0.34, 0, musicStep % 4 === 0 ? "square" : "triangle", 0.007); if (musicStep % 4 === 0) tone(midiToHz((note || 38) - 12), 0.9, 0, "sawtooth", 0.004); musicStep += 1; }
+function startMusic() { stopMusic(); ensureAudio(); musicStep = 0; musicTick(); musicTimer = window.setInterval(musicTick, 320); }
+function stopMusic() { if (musicTimer !== null) window.clearInterval(musicTimer); musicTimer = null; }
+async function activateDefaultAudio() { if (!soundEnabled) return; await ensureAudio(); if (soundEnabled && musicTimer === null) startMusic(); }
 function currentSceneKey() {
   if (state.flags.won) return "victoire"; if (state.room === "galerie") return state.flags.gateOpened ? "galerie-open" : "galerie-closed";
   if (state.room === "forge") return state.flags.brazierLit ? "forge-lit" : "forge-unlit"; if (state.room === "sanctuaire") return state.flags.shieldBroken ? "sanctuaire-broken" : "sanctuaire-shield"; return state.room;
@@ -474,5 +488,7 @@ function drawScene() {
 
 commandForm.addEventListener("submit", (event) => { event.preventDefault(); submitCommand(commandInput.value); });
 restartButton.addEventListener("click", resetGame); playAgainButton.addEventListener("click", resetGame); continueButton.addEventListener("click", continueFromCheckpoint); deathRestartButton.addEventListener("click", resetGame);
-soundButton.addEventListener("click", () => { soundEnabled = !soundEnabled; soundButton.setAttribute("aria-pressed", String(soundEnabled)); soundButton.textContent = `Son : ${soundEnabled ? "oui" : "non"}`; if (soundEnabled) { ensureAudio(); beep("item"); } });
+document.addEventListener("pointerdown", activateDefaultAudio, { once: true, capture: true });
+document.addEventListener("keydown", activateDefaultAudio, { once: true, capture: true });
+soundButton.addEventListener("click", async () => { soundEnabled = !soundEnabled; soundButton.setAttribute("aria-pressed", String(soundEnabled)); soundButton.textContent = `Son + musique : ${soundEnabled ? "oui" : "non"}`; if (soundEnabled) { await ensureAudio(); if (!soundEnabled) return; beep("item"); startMusic(); } else stopMusic(); });
 resetGame();

@@ -582,13 +582,25 @@ kbd {
   transform: translateY(1px);
 }
 
-.quest-card > img {
+.quest-card > img,
+.quest-card__image {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   border-bottom: 1px solid var(--line);
   object-fit: cover;
   image-rendering: pixelated;
+}
+
+.quest-card__image {
+  background-repeat: no-repeat;
+  background-color: #000;
+}
+
+.e3-thumb {
+  background-image: url("assets/e3-forest-sheet.png");
+  background-position: 100% 100%;
+  background-size: 300% 300%;
 }
 
 .quest-card__body {
@@ -621,6 +633,31 @@ kbd {
   color: var(--cyan);
   font-size: 0.86rem;
   font-weight: 700;
+}
+
+.legacy-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(255, 0, 255, 0.3);
+  background: rgba(255, 0, 255, 0.035);
+}
+
+.legacy-panel h3 {
+  margin: 0 0 12px;
+  color: var(--cyan);
+  font-size: 1rem;
+}
+
+.legacy-panel > p:last-child {
+  margin: 12px 0 0;
+  color: #a9c9c9;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.inventory-list li.legacy-item {
+  border-color: rgba(255, 0, 255, 0.42);
+  color: var(--amber);
 }
 
 .sr-only {

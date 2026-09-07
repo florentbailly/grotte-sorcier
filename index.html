@@ -7,7 +7,6 @@
     <meta name="theme-color" content="#070b12" />
     <title>Les Chroniques des Terres Obscures</title>
     <link rel="stylesheet" href="styles.css" />
-    <script defer src="https://stats.baillylab.fr/script.js" data-website-id="c565782b-5375-47bb-89ef-7c76d2ce808c"></script>
   </head>
   <body>
     <main class="machine home-machine" aria-label="Les Chroniques des Terres Obscures">
@@ -61,15 +60,33 @@
                   <span class="quest-start">Commencer la quête <span aria-hidden="true">›</span></span>
                 </div>
               </a>
+
+              <a class="quest-card" href="episode3.html">
+                <div class="quest-card__image e3-thumb" role="img" aria-label="Une silhouette gigantesque domine le cœur de la forêt"></div>
+                <div class="quest-card__body">
+                  <span class="quest-number">Épisode III</span>
+                  <h3>La Forêt de l’Ombre Sans Nom</h3>
+                  <p>Retrouvez le nom oublié de l’entité qui a condamné la forêt à une nuit éternelle.</p>
+                  <span class="quest-start">Commencer la quête <span aria-hidden="true">›</span></span>
+                </div>
+              </a>
             </div>
+
+            <section class="legacy-panel" aria-labelledby="legacy-title">
+              <p class="eyebrow">Inventaire des chroniques</p>
+              <h3 id="legacy-title">Reliques rapportées au village</h3>
+              <ul id="legacyInventory" class="inventory-list"><li class="empty">Aucune relique rapportée</li></ul>
+              <p>Les objets majeurs gagnés au terme d’une quête restent disponibles pour les aventures suivantes sur cet appareil.</p>
+            </section>
           </section>
         </div>
       </section>
 
       <footer class="machine__footer">
-        <p>Deux quêtes · Environ 30 minutes chacune</p>
+        <p>Trois quêtes · Environ 30 minutes chacune</p>
         <p>Le village se souvient</p>
       </footer>
     </main>
+    <script src="chronicles.js"></script>
   </body>
 </html>
