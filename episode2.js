@@ -377,16 +377,16 @@ function resetGame() {
 }
 
 async function ensureAudio() { if (!audioContext) { const Audio = window.AudioContext || window.webkitAudioContext; if (Audio) audioContext = new Audio(); } if (audioContext?.state === "suspended") { try { await audioContext.resume(); } catch { /* une nouvelle interaction pourra relancer l’audio */ } } return audioContext; }
-function tone(frequency, duration, delay = 0, type = "square", volume = 0.02) {
+function tone(frequency, duration, delay = 0, type = "square", volume = 0.035) {
   if (!soundEnabled) return; ensureAudio(); if (!audioContext) return;
   const oscillator = audioContext.createOscillator(), gain = audioContext.createGain(), start = audioContext.currentTime + delay;
   oscillator.type = type; oscillator.frequency.setValueAtTime(frequency, start); gain.gain.setValueAtTime(volume, start); gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
   oscillator.connect(gain).connect(audioContext.destination); oscillator.start(start); oscillator.stop(start + duration);
 }
 function beep(kind) {
-  if (!soundEnabled) return; if (kind === "key") tone(147, 0.035, 0, "square", 0.01); if (kind === "move") tone(98, 0.07, 0, "triangle", 0.012);
+  if (!soundEnabled) return; if (kind === "key") tone(147, 0.035, 0, "square", 0.017); if (kind === "move") tone(98, 0.07, 0, "triangle", 0.02);
   if (kind === "item") { tone(330, 0.07); tone(494, 0.11, 0.06); } if (kind === "success") { tone(220, 0.08); tone(330, 0.08, 0.08); tone(587, 0.14, 0.16); }
-  if (kind === "danger") tone(73, 0.32, 0, "sawtooth", 0.025); if (kind === "victory") [220, 277, 330, 440, 554].forEach((note, i) => tone(note, 0.32, i * 0.11, "square", 0.018));
+  if (kind === "danger") tone(73, 0.32, 0, "sawtooth", 0.04); if (kind === "victory") [220, 277, 330, 440, 554].forEach((note, i) => tone(note, 0.32, i * 0.11, "square", 0.03));
 }
 
 const MUSIC = {
@@ -407,10 +407,10 @@ function musicPattern() {
 function musicTick() {
   if (!soundEnabled || !audioContext || state.pendingDeath || state.flags.won) return;
   const pattern = musicPattern(), note = pattern[musicStep % pattern.length];
-  if (note) tone(midiToHz(note), 0.3, 0, musicStep % 4 === 0 ? "square" : "triangle", 0.006);
-  if (musicStep % 4 === 0) tone(midiToHz((note || 41) - 12), 0.88, 0, "sawtooth", 0.0038);
-  if (note && musicStep % 8 === 6) tone(midiToHz(note + 13), 0.34, 0.035, "square", 0.0028);
-  if (musicStep % 16 === 15) tone(midiToHz(30), 1.15, 0, "triangle", 0.005);
+  if (note) tone(midiToHz(note), 0.3, 0, musicStep % 4 === 0 ? "square" : "triangle", 0.011);
+  if (musicStep % 4 === 0) tone(midiToHz((note || 41) - 12), 0.88, 0, "sawtooth", 0.0065);
+  if (note && musicStep % 8 === 6) tone(midiToHz(note + 13), 0.34, 0.035, "square", 0.0048);
+  if (musicStep % 16 === 15) tone(midiToHz(30), 1.15, 0, "triangle", 0.0085);
   musicStep += 1;
 }
 function startMusic() { stopMusic(); ensureAudio(); musicStep = 0; musicTick(); musicTimer = window.setInterval(musicTick, 300); }

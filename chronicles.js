@@ -7,14 +7,20 @@
     anneau_ombres: "Anneau des Ombres",
     epee_aube: "Épée de l’Aube Muette",
     grimoire_runique: "Grimoire runique rendu aux Nains",
+    cles_valombre: "Clés de la cité de Valombre",
   };
 
   function read() {
     try {
       const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      return { relics: Array.isArray(value.relics) ? value.relics : [] };
+      return {
+        version: 2,
+        relics: Array.isArray(value.relics) ? value.relics : [],
+        spells: Array.isArray(value.spells) ? value.spells : [],
+        outcomes: value.outcomes && typeof value.outcomes === "object" ? value.outcomes : {},
+      };
     } catch {
-      return { relics: [] };
+      return { version: 2, relics: [], spells: [], outcomes: {} };
     }
   }
 
@@ -30,6 +36,19 @@
       if (!LABELS[id]) return;
       const profile = read();
       if (!profile.relics.includes(id)) profile.relics.push(id);
+      write(profile);
+      window.dispatchEvent(new CustomEvent("chronicles-inventory-change"));
+    },
+    spells() { return [...read().spells]; },
+    unlockSpells(ids) {
+      const profile = read();
+      ids.forEach((id) => { if (!profile.spells.includes(id)) profile.spells.push(id); });
+      write(profile);
+    },
+    outcome(key) { return read().outcomes[key]; },
+    setOutcome(key, value) {
+      const profile = read();
+      profile.outcomes[key] = value;
       write(profile);
       window.dispatchEvent(new CustomEvent("chronicles-inventory-change"));
     },

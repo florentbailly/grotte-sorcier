@@ -319,6 +319,12 @@ h1 {
   color: var(--violet);
 }
 
+.log-entry.clue {
+  color: var(--cyan);
+  border-left: 2px solid var(--amber);
+  padding-left: 9px;
+}
+
 .command-form label {
   display: block;
   margin-bottom: 7px;
@@ -649,6 +655,60 @@ kbd {
   color: var(--amber);
 }
 
+.episode5-status {
+  gap: 9px;
+  padding: 12px;
+}
+
+.episode5-status .notebook-list {
+  max-height: 78px;
+}
+
+.risk-meters {
+  display: grid;
+  gap: 6px;
+}
+
+.risk-meter {
+  display: grid;
+  grid-template-columns: 76px repeat(3, 1fr);
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.risk-meter i {
+  height: 8px;
+  border: 1px solid rgba(255, 0, 255, 0.45);
+  background: transparent;
+}
+
+.risk-meter i.is-full {
+  background: var(--amber);
+  box-shadow: 0 0 6px rgba(255, 0, 255, 0.5);
+}
+
+.notebook-list {
+  max-height: 104px;
+  margin: 0;
+  padding-left: 18px;
+  overflow-y: auto;
+  color: #bcecec;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.notebook-list .empty {
+  color: var(--muted);
+  list-style: none;
+}
+
+.spell-item {
+  border-color: rgba(0, 255, 255, 0.45) !important;
+  color: var(--cyan) !important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -728,6 +788,10 @@ kbd {
 
   .status-panel section:first-child {
     grid-row: span 2;
+  }
+
+  .episode5-status section:first-child {
+    grid-row: auto;
   }
 
   .status-panel h2 {

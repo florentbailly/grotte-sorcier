@@ -1,6 +1,6 @@
-# Les Chroniques des Terres Obscures — épisodes I à IV
+# Les Chroniques des Terres Obscures — épisodes I à V
 
-Les quatre jeux sont entièrement statiques : HTML, CSS et JavaScript exécutés dans le navigateur. Il n'y a ni serveur Node.js, ni base de données, ni compilation à effectuer.
+Les cinq jeux fonctionnent sans compilation, entièrement dans le navigateur. L’épisode V réécrit fonctionne sans API ni LLM, avec des dialogues déterministes.
 
 ## Contenu
 
@@ -9,14 +9,25 @@ Les quatre jeux sont entièrement statiques : HTML, CSS et JavaScript exécutés
 - `episode2.html` : épisode II — Le Château du Seigneur des Ténèbres
 - `episode3.html` : épisode III — La Forêt de l’Ombre Sans Nom
 - `episode4.html` : épisode IV — La Montagne du Dragon Noir
-- `game.js`, `episode2.js`, `episode3.js` et `episode4.js` : moteurs et intrigues des quatre épisodes
+- `episode5.html` : épisode V — La Cité du Traître Blafard
+- `game.js`, `episode2.js`, `episode3.js`, `episode4.js` et `episode5.js` : moteurs et intrigues des cinq épisodes
+- `npc-conversation.js` : appel facultatif au service conversationnel, avec repli local automatique
+- `server/npc-dialogue-worker.mjs` : route serveur de référence pour l’API OpenAI ; la clé reste exclusivement dans `OPENAI_API_KEY`
 - `chronicles.js` : inventaire persistant partagé entre les quêtes
 - `styles.css` : interface commune
 - `assets/` : toutes les illustrations CGA
 
-La musique des épisodes est synthétisée directement par le navigateur. Aucun fichier audio supplémentaire n'est nécessaire.
+La musique des épisodes est synthétisée directement par le navigateur. Aucun fichier audio supplémentaire n'est nécessaire. Les cinq épisodes utilisent un niveau sonore renforcé tout en conservant le bouton commun « Son + musique ».
 
-## Règle éditoriale pour les prochaines quêtes
+### Épisode V réécrit
+
+Le scénario est décrit dans `EPISODE5_SCENARIO.md`. `episode5-core.js` contient le moteur indépendant de l'interface ; `episode5.js` gère son affichage. Objectif : capturer le régent vivant en 50 actions au maximum. Les PNJ mémorisent services et menaces ; une capture mène à une geôle dont on peut s'évader. L'arrivée des renforts sans arrestation provoque la mort. Les trois sorts hérités de l'épisode IV ont chacun une utilisation par partie et deux lieux d'emploi aux effets opposés. Neuf décors originaux `e5-v3-*` remplacent toutes les images réutilisées dans l'épisode V.
+
+`npc-conversation.js` et `server/npc-dialogue-worker.mjs` sont des prototypes historiques non chargés par l'épisode V. Aucun service ni clé n'est nécessaire. Vérification : `node tests/episode5.test.cjs`.
+
+## Règles pour les prochaines quêtes
+
+Les mécaniques, conséquences, PNJ conversationnels et critères de validation des nouveaux épisodes sont définis dans `GAME_DESIGN_RULES.md`. Ce document doit être lu avant toute création ou modification d'une future quête.
 
 Sur `index.html`, la vignette d’une quête doit toujours reprendre sa première scène jouable ou son image d’ouverture. Elle ne doit jamais révéler un lieu, un adversaire ou un événement découvert plus tard dans l’aventure, en particulier la scène finale.
 
@@ -72,3 +83,5 @@ sudo systemctl reload nginx
 ```
 
 Le village et le sélecteur de quête sont accessibles à la racine du site. Dans chaque aventure, le bouton « Retour au village » permet de revenir au choix des épisodes.
+
+Test isolé des sorts de l'épisode V : `episode5.html?testSorts=1`. Trois charges disponibles, aucune écriture dans l'inventaire ou la progression permanente. Retirer le paramètre pour revenir au jeu normal. Tests interface : `node tests/episode5-ui.test.cjs`.

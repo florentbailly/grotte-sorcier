@@ -455,16 +455,16 @@ async function ensureAudio() {
   if (audioContext?.state === "suspended") { try { await audioContext.resume(); } catch { /* une nouvelle interaction pourra relancer l’audio */ } }
   return audioContext;
 }
-function tone(frequency, duration, delay = 0, type = "square", volume = 0.025) {
+function tone(frequency, duration, delay = 0, type = "square", volume = 0.04) {
   if (!soundEnabled) return; ensureAudio(); if (!audioContext) return;
   const oscillator = audioContext.createOscillator(), gain = audioContext.createGain(), start = audioContext.currentTime + delay;
   oscillator.type = type; oscillator.frequency.setValueAtTime(frequency, start); gain.gain.setValueAtTime(volume, start); gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
   oscillator.connect(gain).connect(audioContext.destination); oscillator.start(start); oscillator.stop(start + duration);
 }
 function beep(kind) {
-  if (!soundEnabled) return; if (kind === "key") tone(165, 0.035, 0, "square", 0.012); if (kind === "move") tone(110, 0.08, 0, "triangle", 0.018);
+  if (!soundEnabled) return; if (kind === "key") tone(165, 0.035, 0, "square", 0.02); if (kind === "move") tone(110, 0.08, 0, "triangle", 0.028);
   if (kind === "item") { tone(392, 0.08); tone(523, 0.12, 0.07); } if (kind === "success") { tone(262, 0.09); tone(392, 0.09, 0.08); tone(659, 0.16, 0.16); }
-  if (kind === "danger") tone(82, 0.3, 0, "sawtooth", 0.03); if (kind === "victory") [262, 330, 392, 523].forEach((note, i) => tone(note, 0.35, i * 0.12, "square", 0.022));
+  if (kind === "danger") tone(82, 0.3, 0, "sawtooth", 0.045); if (kind === "victory") [262, 330, 392, 523].forEach((note, i) => tone(note, 0.35, i * 0.12, "square", 0.035));
 }
 const MUSIC = {
   cavern: [38, null, 41, 45, 40, null, 36, 43, 38, null, 35, 42, 37, null, 34, null],
@@ -473,7 +473,7 @@ const MUSIC = {
 };
 function midiToHz(note) { return 440 * (2 ** ((note - 69) / 12)); }
 function musicPattern() { if (includesAny(state.room, ["gouffre", "leviers"])) return MUSIC.danger; if (state.room === "sanctuaire") return MUSIC.sanctuary; return MUSIC.cavern; }
-function musicTick() { if (!soundEnabled || !audioContext || state.pendingDeath || state.flags.won) return; const pattern = musicPattern(), note = pattern[musicStep % pattern.length]; if (note) tone(midiToHz(note), 0.34, 0, musicStep % 4 === 0 ? "square" : "triangle", 0.007); if (musicStep % 4 === 0) tone(midiToHz((note || 38) - 12), 0.9, 0, "sawtooth", 0.004); musicStep += 1; }
+function musicTick() { if (!soundEnabled || !audioContext || state.pendingDeath || state.flags.won) return; const pattern = musicPattern(), note = pattern[musicStep % pattern.length]; if (note) tone(midiToHz(note), 0.34, 0, musicStep % 4 === 0 ? "square" : "triangle", 0.012); if (musicStep % 4 === 0) tone(midiToHz((note || 38) - 12), 0.9, 0, "sawtooth", 0.007); musicStep += 1; }
 function startMusic() { stopMusic(); ensureAudio(); musicStep = 0; musicTick(); musicTimer = window.setInterval(musicTick, 320); }
 function stopMusic() { if (musicTimer !== null) window.clearInterval(musicTimer); musicTimer = null; }
 async function activateDefaultAudio() { if (!soundEnabled) return; await ensureAudio(); if (soundEnabled && musicTimer === null) startMusic(); }

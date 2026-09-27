@@ -1,0 +1,61 @@
+{
+  "mode": "built-in image_gen",
+  "calls": 9,
+  "variants": 0,
+  "assets": [
+    {
+      "index": 1,
+      "path": "assets/e5-v3-01-porte.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Porte des Cendres: exterior view of a fortified city gate at night, a hooded discreet contact in the foreground, occupation banners without writing, a distant tower above roofs. Opening scene with quiet mystery and no climax spoilers.",
+      "generatedFile": "exec-c061f43f-b4ce-441c-9245-76f487ee3b35.png"
+    },
+    {
+      "index": 2,
+      "path": "assets/e5-v3-02-place.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Place des Veilleurs: deserted medieval market square at night with a broken fountain, closed wooden stalls, a frightened woman baker standing beside her shuttered stall. Lonely occupied-city atmosphere.",
+      "generatedFile": "exec-2b2737f4-c46b-4865-b614-ff9ac5a86836.png"
+    },
+    {
+      "index": 3,
+      "path": "assets/e5-v3-03-forge.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Forge des Chaînes: interior smith workshop with an elderly smith, cold unlit forge, an anvil in foreground bearing sturdy small manacles attached to a chain, and a bucket of water. Make the manacles, chain, bucket clearly readable as separate objects.",
+      "generatedFile": "exec-e4afe232-1b71-45fe-8389-7df41b200f96.png"
+    },
+    {
+      "index": 4,
+      "path": "assets/e5-v3-04-archives.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Archives: murky stone archive room with a clerk behind a wooden desk, an open ledger and a sealed letter on the desk, shelves of rolled documents, a narrow slit of moonlight. No legible writing anywhere.",
+      "generatedFile": "exec-36dd5e37-d841-485f-a1d4-0bce7ec112ff.png"
+    },
+    {
+      "index": 5,
+      "path": "assets/e5-v3-05-caserne.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Caserne: vaulted stone guard checkpoint inside a medieval barracks, one sentry at a desk, a curtained window and a dark corridor leading onward. Occupation and quiet tension.",
+      "generatedFile": "exec-ca54204d-a359-436c-b868-44966d40ef65.png"
+    },
+    {
+      "index": 6,
+      "path": "assets/e5-v3-06-geole.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Geôle: low stone prison cell interior seen from inside, wooden bowl on floor in foreground, loose nail lying clearly near bowl, rusty ventilation grille low on wall, a cold shaft of moonlight. Empty of people, clear readable puzzle objects.",
+      "generatedFile": "exec-401f6ea4-1743-4644-86fc-3eac865d644c.png"
+    },
+    {
+      "index": 7,
+      "path": "assets/e5-v3-07-galerie.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Galerie des Serments: elevated castle gallery with torn tapestry, a framed portrait depicting a pale dark-haired regent wearing black robes and a black medallion, a window overlooking the occupied city far below. Portrait is a painted object within the pixel-art room.",
+      "generatedFile": "exec-2a13046c-ace6-4dd6-bc13-430f359d1065.png"
+    },
+    {
+      "index": 8,
+      "path": "assets/e5-v3-08-tour.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Tour du Contrepoids: mechanical tower room with a huge frosted iron winch and crank controlling a portcullis through heavy chains, a little charcoal brazier nearby, and a doorway opening onto stairs leading upward. Strong clear silhouettes of mechanical puzzle elements.",
+      "generatedFile": "exec-c1d1ebd4-32c9-4ab3-b063-68f11ee5978a.png"
+    },
+    {
+      "index": 9,
+      "path": "assets/e5-v3-09-trone.png",
+      "prompt": "Use case: illustration-story. Asset type: original environment background for Valombre, a medieval fantasy occupied-city point-and-click adventure. Style: authentic 1991 CGA computer game pixel art; use ONLY black, bright cyan, magenta, white, crisp chunky pixel clusters, deliberate checkerboard dithering, low-resolution 320x180 aesthetic enlarged with nearest-neighbor edges. Landscape 16:9 composition. Consistent ominous medieval stone architecture. Flat pixel shapes, no smooth gradients or painterly brushwork. No text, letters, captions, interface, border, logo, watermark. Primary request: Salle du Trône: open medieval throne hall with balcony at night; pale dark-haired regent wearing black robes and a black medallion stands before the throne. Massive overhead portcullis mechanism. Beyond the balcony, a storm and a distant column of reinforcement torches. Strong ominous climactic composition.",
+      "generatedFile": "exec-9f576ddd-2484-440c-b041-8a2320392a40.png"
+    }
+  ]
+}

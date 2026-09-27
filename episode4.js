@@ -468,7 +468,7 @@ function ensureAudio() {
   if (!musicTimer) scheduleMusic();
 }
 
-function playEffect(frequency, duration, type = "square", volume = 0.025) {
+function playEffect(frequency, duration, type = "square", volume = 0.04) {
   if (!soundEnabled || !audioContext) return;
   const oscillator = audioContext.createOscillator();
   const gain = audioContext.createGain();
@@ -482,8 +482,8 @@ function playEffect(frequency, duration, type = "square", volume = 0.025) {
 function scheduleMusic() {
   if (!soundEnabled || !audioContext) { musicTimer = null; return; }
   const melody = [82, 110, 98, 73, 82, 123, 110, 65];
-  playEffect(melody[musicStep % melody.length], 0.55, "triangle", 0.014);
-  if (musicStep % 4 === 0) playEffect(41, 0.8, "sine", 0.012);
+  playEffect(melody[musicStep % melody.length], 0.55, "triangle", 0.024);
+  if (musicStep % 4 === 0) playEffect(41, 0.8, "sine", 0.02);
   musicStep += 1;
   musicTimer = window.setTimeout(scheduleMusic, 720);
 }
